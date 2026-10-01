@@ -1,0 +1,24 @@
+{
+  "name": "mk8dx-twitch-predictions",
+  "version": "1.0.0",
+  "description": "Dashboard ultra-rapide pour lancer et gérer des prédictions Twitch en stream MK8DX sur Lordi",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "node --watch server/index.js",
+    "build": "vite build",
+    "build:tp": "node scripts/build-tpp.js",
+    "start": "node --max-old-space-size=48 --optimize-for-size server/index.js",
+    "test": "NODE_ENV=test node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.1",
+    "@lucide/vue": "^1.48.0",
+    "hono": "^4.13.9",
+    "vue": "^3.5.43"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.9",
+    "vite": "^8.3.1"
+  }
+}

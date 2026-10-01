@@ -1,0 +1,9 @@
+{
+  "name": "touchportal-mk8dx-predictions",
+  "version": "1.0.0",
+  "description": "Touch Portal plugin for MK8DX Twitch Predictions on Lordi",
+  "main": "index.js",
+  "type": "module",
+  "author": "Nolhan",
+  "license": "MIT"
+}

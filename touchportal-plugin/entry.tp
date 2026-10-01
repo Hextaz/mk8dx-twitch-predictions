@@ -1,0 +1,223 @@
+{
+  "sdk": 3,
+  "version": 100,
+  "name": "MK8DX Predictions",
+  "id": "MK8DX_Predictions",
+  "plugin_start_cmd": "node \"%TP_PLUGIN_FOLDER%MK8DX_Predictions\\index.js\"",
+  "plugin_start_cmd_windows": "node \"%TP_PLUGIN_FOLDER%MK8DX_Predictions\\index.js\"",
+  "plugin_start_cmd_linux": "node \"%TP_PLUGIN_FOLDER%MK8DX_Predictions/index.js\"",
+  "plugin_start_cmd_mac": "node \"%TP_PLUGIN_FOLDER%MK8DX_Predictions/index.js\"",
+  "configuration": {
+    "colorDark": "#111726",
+    "colorLight": "#9146ff"
+  },
+  "settings": [
+    {
+      "name": "Server URL",
+      "type": "text",
+      "default": "http://localhost:3003",
+      "maxLength": 100
+    }
+  ],
+  "categories": [
+    {
+      "id": "MK8DX_Predictions_Cat",
+      "name": "MK8DX Twitch Predictions",
+      "imagepath": "icon.png",
+      "actions": [
+        {
+          "id": "MK8DX_action_select_player",
+          "name": "MK8: Sélectionner Pilote (Slot 1 à 6)",
+          "prefix": "MK8",
+          "type": "communicate",
+          "tryInline": true,
+          "format": "MK8: Sélectionner Pilote {$mk8_slot$}",
+          "data": [
+            {
+              "id": "mk8_slot",
+              "type": "choice",
+              "label": "Slot Pilote",
+              "default": "Slot 1",
+              "valueChoices": ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"]
+            }
+          ]
+        },
+        {
+          "id": "MK8DX_action_select_target",
+          "name": "MK8: Choisir l'Objectif de course",
+          "prefix": "MK8",
+          "type": "communicate",
+          "tryInline": true,
+          "format": "MK8: Choisir Objectif {$mk8_target$}",
+          "data": [
+            {
+              "id": "mk8_target",
+              "type": "choice",
+              "label": "Objectif",
+              "default": "Top 3",
+              "valueChoices": ["Top 1", "Top 3", "Top 6", "Flop (7-12)"]
+            }
+          ]
+        },
+        {
+          "id": "MK8DX_action_select_duration",
+          "name": "MK8: Choisir la Durée des Paris",
+          "prefix": "MK8",
+          "type": "communicate",
+          "tryInline": true,
+          "format": "MK8: Durée des paris {$mk8_duration$} sec",
+          "data": [
+            {
+              "id": "mk8_duration",
+              "type": "choice",
+              "label": "Durée",
+              "default": "30",
+              "valueChoices": ["30", "45", "60", "90", "120"]
+            }
+          ]
+        },
+        {
+          "id": "MK8DX_action_launch",
+          "name": "MK8: Lancer la Prédiction",
+          "prefix": "MK8",
+          "type": "communicate",
+          "format": "MK8: Lancer la Prédiction sur Twitch"
+        },
+        {
+          "id": "MK8DX_action_lock",
+          "name": "MK8: Clôturer les paris (Feu vert anticipé)",
+          "prefix": "MK8",
+          "type": "communicate",
+          "format": "MK8: Clôturer les paris maintenant"
+        },
+        {
+          "id": "MK8DX_action_resolve",
+          "name": "MK8: Valider le Choix Vainqueur",
+          "prefix": "MK8",
+          "type": "communicate",
+          "tryInline": true,
+          "format": "MK8: Valider Victoire {$mk8_choice$}",
+          "data": [
+            {
+              "id": "mk8_choice",
+              "type": "choice",
+              "label": "Issue Gagnante",
+              "default": "Choix 1 (Oui)",
+              "valueChoices": ["Choix 1 (Oui)", "Choix 2 (Non)"]
+            }
+          ]
+        },
+        {
+          "id": "MK8DX_action_cancel",
+          "name": "MK8: Annuler & Rembourser les points",
+          "prefix": "MK8",
+          "type": "communicate",
+          "format": "MK8: Rembourser tout le monde (Bug room)"
+        }
+      ],
+      "states": [
+        {
+          "id": "mk8_status",
+          "type": "text",
+          "desc": "Statut de la course (EN ATTENTE, PARIS OUVERTS, COURSE EN COURS)",
+          "default": "EN ATTENTE"
+        },
+        {
+          "id": "mk8_title",
+          "type": "text",
+          "desc": "Titre complet de la prédiction",
+          "default": "En attente de course..."
+        },
+        {
+          "id": "mk8_timer",
+          "type": "text",
+          "desc": "Temps restant avant clôture des paris",
+          "default": "0s"
+        },
+        {
+          "id": "mk8_total_points",
+          "type": "text",
+          "desc": "Total des points misés par les viewers",
+          "default": "0 pts"
+        },
+        {
+          "id": "mk8_outcome1",
+          "type": "text",
+          "desc": "Libellé et points du Choix 1",
+          "default": "Oui: 0 pts"
+        },
+        {
+          "id": "mk8_outcome2",
+          "type": "text",
+          "desc": "Libellé et points du Choix 2",
+          "default": "Non: 0 pts"
+        },
+        {
+          "id": "mk8_selected_player",
+          "type": "text",
+          "desc": "Pilote actuellement sélectionné",
+          "default": "Nolhan"
+        },
+        {
+          "id": "mk8_selected_target",
+          "type": "text",
+          "desc": "Objectif de course sélectionné",
+          "default": "Top 3"
+        },
+        {
+          "id": "mk8_selected_duration",
+          "type": "text",
+          "desc": "Durée sélectionnée",
+          "default": "30s"
+        },
+        {
+          "id": "mk8_player_slot_1",
+          "type": "text",
+          "desc": "Nom du pilote Slot 1",
+          "default": "Slot 1"
+        },
+        {
+          "id": "mk8_player_slot_2",
+          "type": "text",
+          "desc": "Nom du pilote Slot 2",
+          "default": "Slot 2"
+        },
+        {
+          "id": "mk8_player_slot_3",
+          "type": "text",
+          "desc": "Nom du pilote Slot 3",
+          "default": "Slot 3"
+        },
+        {
+          "id": "mk8_player_slot_4",
+          "type": "text",
+          "desc": "Nom du pilote Slot 4",
+          "default": "Slot 4"
+        },
+        {
+          "id": "mk8_player_slot_5",
+          "type": "text",
+          "desc": "Nom du pilote Slot 5",
+          "default": "Slot 5"
+        },
+        {
+          "id": "mk8_player_slot_6",
+          "type": "text",
+          "desc": "Nom du pilote Slot 6",
+          "default": "Slot 6"
+        }
+      ],
+      "events": [
+        {
+          "id": "mk8_event_status_changed",
+          "name": "MK8: Quand le statut de prédiction change",
+          "format": "Quand le statut MK8 devient $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["EN ATTENTE", "PARIS OUVERTS", "COURSE EN COURS"],
+          "valueStateId": "mk8_status"
+        }
+      ]
+    }
+  ]
+}
